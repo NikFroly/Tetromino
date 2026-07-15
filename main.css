@@ -1,0 +1,443 @@
+:root {
+  --amount-squares-line: 19;
+  --square-size: calc(min(100vw, 100vh) / var(--amount-squares-line));
+  --pattern-size: calc(var(--square-size) * 11.3137);
+  --pattern-url: url("img/pattern0.svg");
+  --pattern-filter: grayscale(1);
+  --field-x: 0;
+  --field-y: 0;
+  --cell-opacity: 1;
+  --field-color: none;
+  --O-shape-color: orange;
+  --I-shape-color: indigo;
+  --T-shape-color: turquoise;
+  --S-shape-color: salmon;
+  --L-shape-color: lightgreen;
+  --field-clip: none;
+  --T-clip-path: polygon(
+    0 0,
+    100% 0,
+    100% 50%,
+    66.66% 50%,
+    66.66% 100%,
+    33.33% 100%,
+    33.33% 50%,
+    0 50%
+  );
+  --S-clip-path: polygon(
+    0 50%,
+    33.33% 50%,
+    33.33% 0,
+    100% 0,
+    100% 50%,
+    66.66% 50%,
+    66.66% 100%,
+    0 100%
+  );
+  --L-clip-path: polygon(
+    0 0,
+    50% 0,
+    50% 66.66%,
+    100% 66.66%,
+    100% 100%,
+    0 100%
+  );
+}
+@media (max-aspect-ratio: 1.2) {
+  :root {
+    --amount-squares-line: 25;
+  }
+}
+@media (max-aspect-ratio: 0.6) {
+  :root {
+    --amount-squares-line: 12;
+  }
+}
+
+h2 {
+  font-size: 2em;
+}
+@media only screen and (max-width: 1024px) {
+  h2 {
+    font-size: 1.75em;
+  }
+}
+@media only screen and (max-width: 768px) {
+  h2 {
+    font-size: 1.5em;
+  }
+}
+@media only screen and (max-width: 480px) {
+  h2 {
+    font-size: 1.25em;
+  }
+}
+
+@keyframes move {
+  from { transform: translate(
+    calc(var(--pattern-size) * -1),
+    calc(var(--pattern-size) * -1)
+  ); }
+  to { transform: translate(0, 0); }
+}
+
+body {
+  position: fixed;
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  user-select: none;
+  font: bold 14px Arial, sans-serif;
+}
+body::before {
+  content: "";
+  width: calc(100vw + var(--pattern-size));
+  height: calc(100vh + var(--pattern-size));
+  background-image: var(--pattern-url);
+  background-size: var(--pattern-size);
+  filter: var(--pattern-filter);
+  transition: filter 3s, background-image 3s;
+  opacity: 0.5;
+  position: absolute;
+  animation: move 15s linear infinite;
+  z-index: -1;
+}
+body[data-view="home"] #level {
+  display: none;
+}
+body[data-view="level"] #home {
+  display: none;
+}
+body[data-view="level"].game header,
+body[data-view="level"].game footer {
+  background: antiquewhite;
+}
+body[data-view="level"].game header {
+  opacity: 1;
+}
+
+header,
+footer {
+  height: var(--square-size);
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+header {
+  font-size: calc(var(--square-size) * 0.5);
+  opacity: 0;
+  transition: opacity 3s;
+}
+footer {
+  transition: background 3s;
+}
+footer > * {
+  height: 65%;
+  aspect-ratio: 1;
+}
+
+#time,
+#hintButton {
+  visibility: hidden;
+}
+#time.show,
+#hintButton.available {
+  visibility: visible;
+}
+#hintButton.available {
+  position: relative;
+  cursor: pointer;
+}
+#hintButton.available::after {
+  content: attr(data-amount);
+  font-size: calc(var(--square-size) * 0.3);
+  position: absolute;
+  right: 12%;
+  bottom: -12%;
+}
+#hintButton.disable {
+  filter: grayscale(1);
+}
+
+main {
+  height: calc(100vh - var(--square-size) * 2);
+}
+main > div {
+  display: flex;
+  height: 100%;
+}
+
+#home {
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+@keyframes fadeInAndOut {
+  0% { opacity: 0; }
+  45% { opacity: 1; }
+  55% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+#equalizer,
+#startText {
+  text-align: center;
+  padding: 0 15px;
+}
+
+#equalizer {
+  visibility: hidden;
+}
+#startText {
+  opacity: 0;
+}
+#startText.show {
+  animation: fadeInAndOut 4s infinite;
+}
+
+#title {
+  width: 90%;
+  max-width: 1500px;
+}
+#base > g {
+  fill: transparent;
+  transition: fill 3s;
+}
+#title.set1 #base > g:nth-child(1) {
+  fill: var(--O-shape-color);
+}
+#title.set2 #base > g:nth-child(2) {
+  fill: var(--I-shape-color);
+}
+#title.set3 #base > g:nth-child(3) {
+  fill: var(--T-shape-color);
+}
+#title.set4 #base > g:nth-child(4) {
+  fill: var(--S-shape-color);
+}
+#title.set5 #base > g:nth-child(5) {
+  fill: var(--L-shape-color);
+}
+#sub > g {
+  opacity: 0;
+  transition: opacity 3s 1s;
+}
+#title.set1 #sub > g:nth-child(1),
+#title.set2 #sub > g:nth-child(2),
+#title.set3 #sub > g:nth-child(3),
+#title.set4 #sub > g:nth-child(4),
+#title.set5 #sub > g:nth-child(5) {
+  opacity: 1;
+}
+
+#level {
+  flex-wrap: wrap;
+  align-content: space-evenly;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+#field {
+  display: flex;
+  flex-wrap: wrap;
+  width: calc(var(--square-size) * var(--field-x));
+  height: calc(var(--square-size) * var(--field-y));
+  background: var(--field-color);
+  clip-path: var(--field-clip);
+  transition: background 3s;
+}
+#field > div {
+  width: calc(var(--square-size) - 2px);
+  aspect-ratio: 1;
+  border: 1px dashed;
+  opacity: var(--cell-opacity);
+  transition: opacity 3s;
+}
+#field > div.hover {
+  background: antiquewhite;
+}
+#field > div.booked {
+  border: 1px solid;
+}
+#field > div.removable {
+  cursor: pointer;
+}
+#field > div.skiped,
+#field > div.booked {
+  border-color: transparent;
+}
+#field > div.booked[data-color="O"] {
+  background: var(--O-shape-color);
+}
+#field > div.booked[data-color="I"] {
+  background: var(--I-shape-color);
+}
+#field > div.booked[data-color="T"] {
+  background: var(--T-shape-color);
+}
+#field > div.booked[data-color="S"] {
+  background: var(--S-shape-color);
+}
+#field > div.booked[data-color="L"] {
+  background: var(--L-shape-color);
+}
+#field > div.booked[data-borders*="top"] {
+  border-top-color: black;
+}
+#field > div.booked[data-borders*="right"] {
+  border-right-color: black;
+}
+#field > div.booked[data-borders*="bottom"] {
+  border-bottom-color: black;
+}
+#field > div.booked[data-borders*="left"] {
+  border-left-color: black;
+}
+
+#shapes {
+  display: none;
+}
+#shapes.show {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(var(--square-size) * 7);
+  height: calc(var(--square-size) * 5);
+}
+
+#list,
+#modifiers {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+#list > li,
+#modifiers > button {
+  background: white;
+}
+
+#list {
+  padding: 0;
+  margin: 0;
+}
+#list > li {
+  display: none;
+}
+#list > li.show {
+  display: block;
+  cursor: pointer;
+  position: relative;
+  width: calc(var(--square-size) - 2px);
+  height: calc(var(--square-size) - 2px);
+  border: solid 1px;
+  margin: 1px;
+}
+#list > li.show::after {
+  content: attr(data-amount);
+  position: absolute;
+  right: -10px;
+  bottom: -10px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: black;
+  color: white;
+  line-height: 20px;
+  text-align: center;
+  z-index: 1;
+}
+
+div[data-type="O"] {
+  width: 40%;
+  height: 40%;
+  margin: 30% 30%;
+  background: var(--O-shape-color);
+}
+div[data-type="O"].moveable {
+  width: calc(var(--square-size) * 2);
+  height: calc(var(--square-size) * 2);
+  margin: 0;
+}
+
+div[data-type="I"] {
+  width: 20%;
+  height: 80%;
+  margin: 10% 40%;
+  background: var(--I-shape-color);
+}
+div[data-type="I"].moveable {
+  width: var(--square-size);
+  height: calc(var(--square-size) * 4);
+  margin: 0;
+}
+
+div[data-type="T"] {
+  width: 60%;
+  height: 40%;
+  margin: 30% 20%;
+  background: var(--T-shape-color);
+  clip-path: var(--T-clip-path);
+}
+div[data-type="T"].moveable {
+  width: calc(var(--square-size) * 3);
+  height: calc(var(--square-size) * 2);
+  margin: 0;
+}
+
+div[data-type="S"] {
+  width: 60%;
+  height: 40%;
+  margin: 30% 20%;
+  background: var(--S-shape-color);
+  clip-path: var(--S-clip-path);
+}
+div[data-type="S"].moveable {
+  width: calc(var(--square-size) * 3);
+  height: calc(var(--square-size) * 2);
+  margin: 0;
+}
+
+div[data-type="L"] {
+  width: 40%;
+  height: 60%;
+  margin: 20% 30%;
+  background: var(--L-shape-color);
+  clip-path: var(--L-clip-path);
+}
+div[data-type="L"].moveable {
+  width: calc(var(--square-size) * 2);
+  height: calc(var(--square-size) * 3);
+  margin: 0;
+}
+
+#view {
+  width: calc(var(--square-size) * 5);
+  height: calc(var(--square-size) * 5);
+}
+
+#shape {
+  cursor: grab;
+  touch-action: none;
+  transition: 0.5s;
+}
+#shape.moveable {
+  cursor: grabbing;
+  z-index: 2;
+}
+
+#modifiers > button {
+  cursor: pointer;
+  border-radius: 50%;
+  width: var(--square-size);
+  aspect-ratio: 1;
+  padding: 0;
+  font-size: calc(var(--square-size) * 0.4);
+}
+#modifiers.set1 > button {
+  visibility: hidden;
+}
+#modifiers.set2 > button[data-type="mirror"] {
+  display: none;
+}

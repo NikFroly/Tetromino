@@ -1,0 +1,155 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tetromino</title>
+    <link rel="icon" type="image/svg+xml" href="img/gameIcon.svg">
+    <link rel="stylesheet" type="text/css" href="main.css">
+  </head>
+  <body data-view="home" data-set="0" data-stage="0">
+    <header>
+      <span>Level <span id="curLevel">0</span></span>
+      <span id="time"></span>
+      <span id="hintButton">&#128161;</span>
+    </header>
+    <main>
+      <div id="home">
+        <section id="equalizer">
+          <h2>Text</h2>
+        </section>
+        <section id="title">
+          <svg viewBox="0 0 430 94">
+            <g id="base">
+              <g>
+                <polygon points="50,30 70,30 70,50 50,50"/>
+              </g>
+              <g>
+                <polygon points="20,30 30,30 30,70 20,70"/>
+                <polygon points="100,30 110,30 110,70 100,70"/>
+                <polygon points="130,30 140,30 140,70 130,70"/>
+                <polygon points="230,70 240,70 240,30 230,30"/>
+                <polygon points="270,30 280,30 280,70 270,70"/>
+                <polygon points="330,70 340,70 340,30 330,30"/>
+                <polygon points="360,50 370,50 370,10 360,10"/>
+                <polygon points="380,70 390,70 390,30 380,30"/>
+                <polygon points="410,10 420,10 420,50 410,50"/>
+              </g>
+              <g>
+                <polygon points="10,10 40,10 40,20 30,20 30,30 20,30 20,20 10,20"/>
+                <polygon points="90,10 120,10 120,20 110,20 110,30 100,30 100,20 90,20"/>
+                <polygon points="240,40 270,40 270,50 260,50 260,60 250,60 250,50 240,50"/>
+              </g>
+              <g>
+                <polygon points="150,40 160,40 160,50 170,50 170,70 160,70 160,60 150,60"/>
+                <polygon points="230,10 240,10 240,20 250,20 250,40 240,40 240,30 230,30"/>
+                <polygon points="260,40 270,40 270,30 280,30 280,10 270,10 270,20 260,20"/>
+                <polygon points="330,10 340,10 340,20 350,20 350,40 340,40 340,30 330,30"/>
+                <polygon points="350,40 360,40 360,50 370,50 370,70 360,70 360,60 350,60"/>
+              </g>
+              <g>
+                <polygon points="50,10 80,10 80,20 60,20 60,30 50,30"/>
+                <polygon points="50,50 60,50 60,60 80,60 80,70 50,70"/>
+                <polygon points="130,10 160,10 160,20 140,20 140,30 130,30"/>
+                <polygon points="140,30 160,30 160,20 170,20 170,40 140,40"/>
+                <polygon points="180,10 200,10 200,20 190,20 190,40 180,40"/>
+                <polygon points="200,10 220,10 220,40 210,40 210,20 200,20"/>
+                <polygon points="210,40 220,40 220,70 200,70 200,60 210,60"/>
+                <polygon points="200,60 200,70 180,70 180,40 190,40 190,60"/>
+                <polygon points="300,40 310,40 310,70 290,70 290,60 300,60"/>
+                <polygon points="300,40 310,40 310,20 320,20 320,10 300,10"/>
+                <polygon points="380,30 390,30 390,20 410,20 410,10 380,10"/>
+                <polygon points="410,50 420,50 420,70 390,70 390,60 410,60"/>
+              </g>
+              <g fill="none" stroke="black">
+                <polygon points="10,10 40,10 40,20 30,20 30,70 20,70 20,20 10,20"/>
+                <polygon points="50,10 80,10 80,20 60,20 60,30 70,30 70,50 60,50 60,60 80,60 80,70 50,70"/>
+                <polygon points="90,10 120,10 120,20 110,20 110,70 100,70 100,20 90,20"/>
+                <polygon points="130,10 160,10 160,20 140,20 140,30 160,30 160,20 170,20 170,40 160,40 160,50 170,50 170,70 160,70 160,60 150,60 150,40 140,40 140,70 130,70"/>
+                <polygon points="180,10 220,10 220,70 180,70"/>
+                <polygon points="190,20 210,20 210,60 190,60"/>
+                <polygon points="230,10 240,10 240,20 250,20 250,40 260,40 260,20 270,20 270,10 280,10 280,70 270,70 270,50 260,50 260,60 250,60 250,50 240,50 240,70 230,70"/>
+                <polygon points="290,60 300,60 300,10 320,10 320,20 310,20 310,70 290,70"/>
+                <polygon points="330,10 340,10 340,20 350,20 350,40 360,40 360,10 370,10 370,70 360,70 360,60 350,60 350,40 340,40 340,70 330,70"/>
+                <polygon points="380,10 420,10 420,70 380,70"/>
+                <polygon points="390,20 410,20 410,60 390,60"/>
+              </g>
+            </g>
+            <g id="sub">
+              <g>
+                <polygon points="198,78 202,78 202,82 198,82"/>
+                <polygon points="398,78 402,78 402,82 398,82"/>
+              </g>
+              <g>
+                <polygon points="304,76 306,76 306,84 304,84"/>
+              </g>
+              <g>
+                <polygon points="22,78 28,78 28,80 26,80 26,82 24,82 24,80 22,80"/>
+                <polygon points="102,78 108,78 108,80 106,80 106,82 104,82 104,80 102,80"/>
+                <polygon points="254,78 256,78 256,80 258,80 258,82 252,82 252,80 254,80"/>
+              </g>
+              <g>
+                <polygon points="62,78 66,78 66,80 68,80 68,82 64,82 64,80 62,80"/>
+              </g>
+              <g>
+                <polygon points="147,78 153,78 153,80 149,80 149,82 147,82"/>
+                <polygon points="347,78 353,78 353,82 351,82 351,80 347,80"/>
+              </g>
+            </g>
+          </svg>
+        </section>
+        <section id="startText">
+          <h2>Text</h2>
+        </section>
+      </div>
+      <div id="level">
+        <section id="field"></section>
+        <section id="shapes">
+          <ul id="list" onclick="selectShape(event)">
+            <li data-amount="0">
+              <div data-type="O"></div>
+            </li>
+            <li data-amount="0">
+              <div data-type="I"></div>
+            </li>
+            <li data-amount="0">
+              <div data-type="T"></div>
+            </li>
+            <li data-amount="0">
+              <div data-type="S"></div>
+            </li>
+            <li data-amount="0">
+              <div data-type="L"></div>
+            </li>
+          </ul>
+          <div id="view">
+            <div id="shape"></div>
+          </div>
+          <div id="modifiers" class="set1">
+            <button id="rotL" data-type="rotateLeft" onclick="editShape(event)">&#8634;</button>
+            <button id="mir" data-type="mirror" onclick="editShape(event)">&#10231;</button>
+            <button id="rotR" data-type="rotateRight" onclick="editShape(event)">&#8635;</button>
+          </div>
+        </section>
+      </div>
+    </main>
+    <footer>
+      <a href="https://nikfroly.github.io/About_me/" target="_blank">
+        <svg viewBox="0 0 100 100" stroke="black" stroke-width="6px" stroke-linecap="square">
+          <circle r="46" cx="50" cy="50" fill="none"/>
+          <line x1="20" y1="50" x2="30" y2="10"/>
+          <line x1="30" y1="10" x2="50" y2="50"/>
+          <line x1="40" y1="90" x2="60" y2="10"/>
+          <line x1="50" y1="50" x2="80" y2="50"/>
+          <line x1="79" y1="52" x2="47" y2="70"/>
+        </svg>
+      </a>
+      <a href="https://github.com/NikFroly" target="_blank">
+        <svg viewBox="0 0 32 32" fill="black">
+          <path d="M16 0C7.16 0 0 7.16 0 16C0 23.08 4.58 29.06 10.94 31.18C11.74 31.32 12.04 30.84 12.04 30.42C12.04 30.04 12.02 28.78 12.02 27.44C8 28.18 6.96 26.46 6.64 25.56C6.46 25.1 5.68 23.68 5 23.3C4.44 23 3.64 22.26 4.98 22.24C6.24 22.22 7.14 23.4 7.44 23.88C8.88 26.3 11.18 25.62 12.1 25.2C12.24 24.16 12.66 23.46 13.12 23.06C9.56 22.66 5.84 21.28 5.84 15.16C5.84 13.42 6.46 11.98 7.48 10.86C7.32 10.46 6.76 8.82 7.64 6.62C7.64 6.62 8.98 6.2 12.04 8.26C13.32 7.9 14.68 7.72 16.04 7.72C17.4 7.72 18.76 7.9 20.04 8.26C23.1 6.18 24.44 6.62 24.44 6.62C25.32 8.82 24.76 10.46 24.6 10.86C25.62 11.98 26.24 13.4 26.24 15.16C26.24 21.3 22.5 22.66 18.94 23.06C19.52 23.56 20.02 24.52 20.02 26.02C20.02 28.16 20 29.88 20 30.42C20 30.84 20.3 31.34 21.1 31.18C27.42 29.06 32 23.06 32 16C32 7.16 24.84 0 16 0V0Z"/>
+        </svg>
+      </a>
+    </footer>
+  </body>
+  <script src="common.js"></script>
+</html>
