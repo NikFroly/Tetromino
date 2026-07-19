@@ -335,7 +335,7 @@ function removeShapePart(cell) {
   cell.dataset.borders = "";
   cell.classList.remove("booked", "removable");
   cell.classList.add("droppable");
-  cell.onpointerdown = null;
+  cell.onclick = null;
 }
 
 function addShapePart(cell, index, part) {
@@ -349,7 +349,7 @@ function addShapePart(cell, index, part) {
   cell.dataset.partIndex = index;
   cell.dataset.color = shape.dataset.type;
   cell.dataset.borders = part.borders;
-  cell.onpointerdown = (event) => returnToShapes(event.target);
+  cell.onclick = (event) => returnToShapes(event.target);
 }
 
 function calcShifts(clientX, clientY) {
@@ -488,7 +488,7 @@ function initDragDrop() {
 }
 
 function showGameTime() {
-  equalizer.firstElementChild.innerHTML = startText.firstElementChild.innerHTML = "All level completed by<br>" + getHMSFromMS(GameTime);
+  equalizer.firstElementChild.innerHTML = startText.firstElementChild.innerHTML = "All levels completed by<br>" + getHMSFromMS(GameTime);
   startText.classList.add("show");
 }
 
@@ -569,7 +569,7 @@ async function endLevel() {
 
 
       document.documentElement.style.setProperty(
-        "--pattern-url",
+        "--current-pattern-url",
         `url("img/pattern${document.body.dataset.set}.svg")`
       );
       document.documentElement.style.setProperty(
@@ -607,6 +607,10 @@ function setHint() {
 
   for (const part of getShapeParts(hint.shape, hint.rotZ, hint.rotY)) {
     let cell = field.querySelector(`[data-x="${hint.x + part.x}"][data-y="${hint.y + part.y}"]`);
+
+    if (cell.classList.contains("booked")) {
+      cell.click();
+    }
 
     cell.classList.remove("droppable");
     cell.classList.add("booked");
@@ -718,6 +722,13 @@ function swapToLevelView() {
   const level = LEVELS[document.body.dataset.set][document.body.dataset.stage];
 
   if (level) {
+    if (level.open) {
+      document.documentElement.style.setProperty(
+        "--next-pattern-url",
+        `url("img/pattern${+document.body.dataset.set + 1}.svg")`
+      );
+    }
+
     document.body.dataset.view = "level";
 
     initField(level);
